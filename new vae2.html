@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Center card */
+.card {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 40px 50px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+/* Waving text */
+h1 span {
+  display: inline-block;
+  animation: wave 2s ease-in-out infinite;
+}
+
+h1 span:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 42px;
+  color: #d6336c;
+  margin-bottom: 30px;
+}
+
+
+/* Buttons container */
+.buttons {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  font-size: 20px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#yes {
+  background: #ff4d6d;
+  color: white;
+}
+
+#yes:hover {
+  transform: scale(1.1);
+  background: #ff2f55;
+}
+
+/* No button starts beside Yes */
+#no {
+  background: #6c757d;
+  color: white;
+  position: relative; /* 👈 KEY FIX */
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 20px;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(50vh) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50vh) scale(1.5);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1 id="title"></h1>
+
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">Yes ❤️</button>
+    <button id="no">No 😅</button>
+  </div>
+</div>
+
+<script>
+/* Split text into waving letters */
+const text = "Will you be my Valentine ? ";
+const title = document.getElementById("title");
+
+text.split("").forEach(letter => {
+  const span = document.createElement("span");
+  span.innerText = letter === " " ? "\u00A0" : letter;
+  title.appendChild(span);
+});
+
+function yesClicked() {
+  alert("Yayyy! 💕 I’m so happy! 😍🌹");
+}
+
+const noBtn = document.getElementById("no");
+
+/* No button runs away but NEVER disappears */
+function moveButton() {
+  const padding = 20;
+
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.position = "fixed";   // keeps it visible on screen
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+/* Desktop + Mobile */
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
+
+/* Floating hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "💖";
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 15 + "px";
+  heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 7000);
+}, 400);
+</script>
+
+</body>
+</html>
